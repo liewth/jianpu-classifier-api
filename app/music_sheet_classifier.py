@@ -330,13 +330,13 @@ class MusicSheetClassifier:
         # Detect different notation types
         is_staff, staff_confidence = self.detect_staff_notation(binary_img)
         is_jianpu, jianpu_confidence = self.detect_jianpu_notation(binary_img)
-        is_tablature, tablature_confidence = self.detect_tablature(binary_img)
+        # is_tablature, tablature_confidence = self.detect_tablature(binary_img)
         
         # Compile confidences
         confidences = {
             "staff_notation": float(staff_confidence),
             "jianpu_notation": float(jianpu_confidence),
-            "tablature": float(tablature_confidence),
+            # "tablature": float(tablature_confidence),
         }
         
         # Determine the most likely notation type
@@ -356,7 +356,7 @@ class MusicSheetClassifier:
             "features": {
                 "staff_lines_detected": is_staff,
                 "jianpu_numbers_detected": is_jianpu,
-                "tablature_structure_detected": is_tablature
+                # "tablature_structure_detected": is_tablature
             }
         }
         
