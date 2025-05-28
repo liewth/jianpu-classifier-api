@@ -9,6 +9,7 @@ import pytesseract
 class MusicSheetClassifier:
     VALID_CHARS = set("12345670.-|/\[] ")
     INVALID_CHARS = set("89") | set(string.ascii_lowercase) | set(string.ascii_uppercase)
+    # uncomment this one if you going test image on window pc
     # pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
     """
     A classifier for different music notation systems including:
@@ -187,50 +188,22 @@ class MusicSheetClassifier:
 
             valid_chars = sum(1 for c in chars if c in self.VALID_CHARS)
             char_ratio = valid_chars / total_chars
-            # if (char_ratio != 1):
-            #     print(f"chars({chars})")
-            #     print(f"char_ratio({char_ratio}) = valid_chars({valid_chars}) / total_chars({total_chars})")
+            
             total_line_count += 1
             char_ratio_sum += char_ratio
 
             # Heuristic: at least 90% valid characters
             if char_ratio >= 0.9:
                 valid_line_count += 1
-                # char_ratio_sum += char_ratio
-                # avg_top = sum(line_info["tops"]) / len(line_info["tops"])
-                # avg_height = sum(line_info["heights"]) / len(line_info["heights"])
-                # jianpu_lines.append((avg_top, avg_height))
 
         if total_line_count == 0:
             return False, 0.0
         
         
-
-        # Check vertical spacing consistency
-        # jianpu_lines.sort()
-        # spacing_diffs = [
-        #     jianpu_lines[i+1][0] - jianpu_lines[i][0]
-        #     for i in range(len(jianpu_lines) - 1)
-        # ]
-        # consistent_spacing = 0
-        # if spacing_diffs:
-        #     avg_spacing = sum(spacing_diffs) / len(spacing_diffs)
-        #     consistent_spacing = sum(
-        #         0.8 <= diff / avg_spacing <= 1.2 for diff in spacing_diffs
-        #     ) / len(spacing_diffs)
-
-        # Final confidence: content match * layout consistency
+        
         
         content_score = char_ratio_sum / total_line_count
-        # content_score = char_ratio_sum / valid_line_count
-        # if valid_line_count > 0:
-        #     content_score = char_ratio_sum / valid_line_count
-        # else:
-        #     content_score = 0.0
-        # layout_score = consistent_spacing if spacing_diffs else 0.0
-        # if layout_score == 0:
-        #     print(f"consistent_spacing:({consistent_spacing})spacing_diffs:({spacing_diffs})jianpu_lines({jianpu_lines})")
-        # confidence = 0.8 * content_score + 0.2 * layout_score
+        
         confidence = content_score 
 
 
